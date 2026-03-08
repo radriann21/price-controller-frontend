@@ -1,7 +1,14 @@
-import { Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { Header } from "./components/Header";
+import { HeroInfo } from "./components/HeroInfo";
+import { ProductsTable } from "./components/ProductsTable";
 
 export const Home = () => {
   return (
-    <Heading>Home</Heading>
+    <Box bgColor="orange.subtle" minH="100vh">
+      <Header />
+      <HeroInfo />
+      <ProductsTable />
+    </Box>
   )
 }
