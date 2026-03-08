@@ -1,9 +1,11 @@
-import { Heading } from "@chakra-ui/react"
+import AppRouter from "./AppRouter"
+import { Toaster } from "@/shared/components/ui/toaster"
 
 function App() {
   return (
     <div>
-      <Heading>Price Controller</Heading>
+      <AppRouter />
+      <Toaster />
     </div>
   )
 }
