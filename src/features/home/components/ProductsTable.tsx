@@ -1,5 +1,4 @@
 import {
-  Button,
   Flex,
   Input,
   InputGroup,
@@ -9,7 +8,8 @@ import {
   ButtonGroup,
   IconButton,
   Text,
-  Box
+  Box,
+  Grid,
 } from "@chakra-ui/react";
 import { Search, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
 import { useGetProducts } from "../hooks/useGetProducts";
@@ -18,6 +18,7 @@ import { TOTAL_ITEMS } from "@/shared/constants/constants";
 import { ConfirmUpdateDialog } from "./ConfirmUpdateDialog";
 import type { Product } from "../interfaces/products.interface";
 import { type ReactNode, useState } from "react";
+import { ProductCard } from "./ProductCard";
 
 interface Column {
   id: keyof Product | string;
@@ -56,40 +57,41 @@ const columns: Column[] = [
 export const ProductsTable = () => {
   const [page, setPage] = useState(1);
 
-  const { data: products, isLoading, error, isError } = useGetProducts({
+  const {
+    data: products,
+    isLoading,
+    error,
+    isError,
+  } = useGetProducts({
     page,
     limit: TOTAL_ITEMS,
   });
 
   return (
-    <Flex direction="column" gapY="0.5rem" mt="2rem" px="2rem" py="1rem">
+    <Flex
+      direction="column"
+      gapY="0.5rem"
+      mt="2rem"
+      px={{ base: "1rem", md: "2rem" }}
+      py="1rem"
+    >
       <Flex
         w="100%"
-        alignItems="center"
+        direction={{ base: "column", md: "row" }}
+        alignItems={{ base: "stretch", md: "center" }}
         justifyContent="space-between"
-        gapX="2rem"
+        gapY={{ base: "0.75rem", md: "0" }}
       >
         <InputGroup
-          width="420px"
+          width={{ base: "100%", md: "420px" }}
           startElement={<Search size={16} />}
           bgColor="white"
         >
           <Input placeholder="Buscar producto..." />
         </InputGroup>
-        <Flex gapX="0.5rem">
-          <Button
-            colorPalette="orange"
-            variant="outline"
-            color="orange.600"
-            fontWeight="bold"
-            px="1.5rem"
-            _hover={{
-              bg: "orange.50",
-            }}
-          >
-            Filtrar
-          </Button>
+        <Flex gapX="1rem">
           <CreateProductDialog />
+          <ConfirmUpdateDialog />
         </Flex>
       </Flex>
       {isError ? (
@@ -111,53 +113,84 @@ export const ProductsTable = () => {
           </Text>
         </Box>
       ) : (
-        <Table.Root striped variant="line">
-          <Table.Header>
-            <Table.Row>
-              {columns.map((column) => (
-                <Table.ColumnHeader key={column.id} fontWeight="bold">
-                  {column.header}
-                </Table.ColumnHeader>
-              ))}
-            </Table.Row>
-          </Table.Header>
-          {isLoading ? (
-            <Table.Body>
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Table.Row key={index}>
-                  {columns.map((column) => (
-                    <Table.Cell key={column.id}>
-                      <Skeleton height="20px" />
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              ))}
-            </Table.Body>
-          ) : (
-            <Table.Body>
-              {products?.data.map((product) => (
-                <Table.Row key={product.id}>
-                  {columns.map((column) => (
-                    <Table.Cell key={column.id}>
-                      {column.render
-                        ? column.render(product)
-                        : product[column.id as keyof Product]}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              ))}
-              {!isLoading && products?.data.length === 0 && (
+        <>
+          {/* Desktop Table View */}
+          <Box display={{ base: "none", md: "block" }}>
+            <Table.Root striped variant="line">
+              <Table.Header>
                 <Table.Row>
-                  <Table.Cell colSpan={columns.length}>
-                    <Text textAlign="center" color="gray.500" py="4">
+                  {columns.map((column) => (
+                    <Table.ColumnHeader key={column.id} fontWeight="bold">
+                      {column.header}
+                    </Table.ColumnHeader>
+                  ))}
+                </Table.Row>
+              </Table.Header>
+              {isLoading ? (
+                <Table.Body>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Table.Row key={index}>
+                      {columns.map((column) => (
+                        <Table.Cell key={column.id}>
+                          <Skeleton height="20px" />
+                        </Table.Cell>
+                      ))}
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              ) : (
+                <Table.Body>
+                  {products?.data.map((product) => (
+                    <Table.Row key={product.id}>
+                      {columns.map((column) => (
+                        <Table.Cell key={column.id}>
+                          {column.render
+                            ? column.render(product)
+                            : product[column.id as keyof Product]}
+                        </Table.Cell>
+                      ))}
+                    </Table.Row>
+                  ))}
+                  {!isLoading && products?.data.length === 0 && (
+                    <Table.Row>
+                      <Table.Cell colSpan={columns.length}>
+                        <Text textAlign="center" color="gray.500" py="4">
+                          No se encontraron productos
+                        </Text>
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </Table.Body>
+              )}
+            </Table.Root>
+          </Box>
+
+          {/* Mobile Card View */}
+          <Box display={{ base: "block", md: "none" }}>
+            {isLoading ? (
+              <Grid templateColumns="repeat(1, 1fr)" gap="4" mt="2">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Box key={index} bgColor="white" borderRadius="lg" p="4">
+                    <Skeleton height="120px" />
+                  </Box>
+                ))}
+              </Grid>
+            ) : (
+              <Grid templateColumns="repeat(1, 1fr)" gap="4" mt="2">
+                {products?.data.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+                {!isLoading && products?.data.length === 0 && (
+                  <Box bgColor="white" borderRadius="lg" p="8">
+                    <Text textAlign="center" color="gray.500">
                       No se encontraron productos
                     </Text>
-                  </Table.Cell>
-                </Table.Row>
-              )}
-            </Table.Body>
-          )}
-        </Table.Root>
+                  </Box>
+                )}
+              </Grid>
+            )}
+          </Box>
+        </>
       )}
       <Pagination.Root
         width="100%"
@@ -195,9 +228,6 @@ export const ProductsTable = () => {
           </Pagination.NextTrigger>
         </ButtonGroup>
       </Pagination.Root>
-      <Flex alignItems="center" justifyContent="flex-end">
-        <ConfirmUpdateDialog />
-      </Flex>
     </Flex>
   );
 };
