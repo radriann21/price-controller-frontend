@@ -1,7 +1,12 @@
-import { Box, Flex, Text, Heading, Button } from "@chakra-ui/react";
-import { CircleDollarSign, RefreshCcw } from "lucide-react";
+import { Box, Flex, Text, Heading, Button, Skeleton } from "@chakra-ui/react";
+import { CircleDollarSign, RefreshCcw, AlertCircle } from "lucide-react";
+import { useGetBCV } from "../hooks/useGetBCV";
+import { useRefreshBCV } from "../hooks/useRefreshBCV";
 
 export const HeroInfo = () => {
+  const { data: bcvRate, isLoading, isError } = useGetBCV();
+  const refreshBCV = useRefreshBCV();
+
   return (
     <Flex w="100%" alignItems="center" my="2rem" px="2rem">
       <Box
@@ -29,17 +34,29 @@ export const HeroInfo = () => {
             >
               Tasa Oficial BCV
             </Text>
-            <Flex alignItems="baseline" gapX="0.2rem">
-              <Heading size="3xl" as="h3" letterSpacing="wider" fontWeight="bold">
-                450.00
-              </Heading>
-              <Text color="gray.500" fontSize="14px" textTransform="uppercase">
-                VES/USD
-              </Text>
-            </Flex>
+            {isLoading ? (
+              <Skeleton height="40px" width="150px" />
+            ) : isError ? (
+              <Flex alignItems="center" gapX="0.5rem">
+                <AlertCircle size={16} color="#e53e3e" />
+                <Text color="red.600" fontSize="sm">
+                  Error al cargar
+                </Text>
+              </Flex>
+            ) : (
+              <Flex alignItems="baseline" gapX="0.2rem">
+                <Heading size="3xl" as="h3" letterSpacing="wider" fontWeight="bold">
+                  {bcvRate?.rate || "0.00"}
+                </Heading>
+                <Text color="gray.500" fontSize="14px" textTransform="uppercase">
+                  VES/USD
+                </Text>
+              </Flex>
+            )}
           </Box>
         </Flex>
         <Button
+          onClick={refreshBCV}
           bgColor="#ff6b35"
           color="white"
           fontWeight="semibold"
