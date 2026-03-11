@@ -3,12 +3,14 @@ import { Header } from "./components/Header";
 import { HeroInfo } from "./components/HeroInfo";
 import { ProductsTable } from "./components/ProductsTable";
 
-export const Home = () => {
+const Home = () => {
   return (
-    <Box bgColor="orange.subtle" minH="100vh">
+    <Box bgColor="background.page" minH="100vh">
       <Header />
       <HeroInfo />
       <ProductsTable />
     </Box>
   )
 }
+
+export default Home

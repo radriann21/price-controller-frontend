@@ -13,11 +13,11 @@ export const ConfirmUpdateDialog = () => {
     <Dialog.Root lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
         <Button
-          bgColor="orange.500"
-          color="white"
+          bgColor="brand.primary"
+          color="background.card"
           fontWeight="bold"
           _hover={{
-            bg: "orange.600",
+            bg: "brand.primaryHover",
           }}
         >
           Actualizar Precios

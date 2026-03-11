@@ -85,11 +85,11 @@ export const ProductsTable = () => {
         <InputGroup
           width={{ base: "100%", md: "420px" }}
           startElement={<Search size={16} />}
-          bgColor="white"
+          bgColor="background.input"
         >
           <Input placeholder="Buscar producto..." />
         </InputGroup>
-        <Flex gapX="1rem">
+        <Flex gapX="0.5rem">
           <CreateProductDialog />
           <ConfirmUpdateDialog />
         </Flex>
@@ -100,15 +100,15 @@ export const ProductsTable = () => {
           bgColor="red.50"
           borderRadius="md"
           border="1px solid"
-          borderColor="red.200"
+          borderColor="border.error"
         >
           <Flex alignItems="center" gapX="2">
-            <AlertCircle size={20} color="#e53e3e" />
-            <Text color="red.700" fontWeight="medium">
+            <AlertCircle size={20} color="icon.error" />
+            <Text color="text.errorDark" fontWeight="medium">
               Error al cargar los productos
             </Text>
           </Flex>
-          <Text color="red.600" fontSize="sm" mt="2">
+          <Text color="text.error" fontSize="sm" mt="2">
             {error?.message || "Ocurrió un error inesperado"}
           </Text>
         </Box>
@@ -154,7 +154,7 @@ export const ProductsTable = () => {
                   {!isLoading && products?.data.length === 0 && (
                     <Table.Row>
                       <Table.Cell colSpan={columns.length}>
-                        <Text textAlign="center" color="gray.500" py="4">
+                        <Text textAlign="center" color="text.tertiary" py="4">
                           No se encontraron productos
                         </Text>
                       </Table.Cell>
@@ -170,7 +170,7 @@ export const ProductsTable = () => {
             {isLoading ? (
               <Grid templateColumns="repeat(1, 1fr)" gap="4" mt="2">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <Box key={index} bgColor="white" borderRadius="lg" p="4">
+                  <Box key={index} bgColor="background.card" borderRadius="lg" p="4">
                     <Skeleton height="120px" />
                   </Box>
                 ))}
@@ -181,8 +181,8 @@ export const ProductsTable = () => {
                   <ProductCard key={product.id} product={product} />
                 ))}
                 {!isLoading && products?.data.length === 0 && (
-                  <Box bgColor="white" borderRadius="lg" p="8">
-                    <Text textAlign="center" color="gray.500">
+                  <Box bgColor="background.card" borderRadius="lg" p="8">
+                    <Text textAlign="center" color="text.tertiary">
                       No se encontraron productos
                     </Text>
                   </Box>
