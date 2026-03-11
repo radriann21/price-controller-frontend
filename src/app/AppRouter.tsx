@@ -1,7 +1,7 @@
 import { lazy } from "react"
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Login } from "@/features/auth/Login";
-import { ProtectedRoute } from "@/shared/guards/ProtectedRoute";
+import { ProtectedRoute } from "@/shared/components/routing/ProtectedRoute";
 
 // lazy
 const Home = lazy(() => import("@/features/home/Home"));

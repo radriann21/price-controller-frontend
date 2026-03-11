@@ -12,13 +12,14 @@ import {
   Grid,
 } from "@chakra-ui/react";
 import { Search, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
-import { useGetProducts } from "../hooks/useGetProducts";
+import { useGetProducts } from "@/features/home/hooks/useGetProducts";
+import { useDebounce } from "@/shared/hooks/useDebounce";
 import { CreateProductDialog } from "./CreateProductDialog";
-import { TOTAL_ITEMS } from "@/shared/constants/constants";
+import { TOTAL_ITEMS } from "@/shared/utils/constants";
 import { ConfirmUpdateDialog } from "./ConfirmUpdateDialog";
-import type { Product } from "../interfaces/products.interface";
-import { type ReactNode, useState } from "react";
 import { ProductCard } from "./ProductCard";
+import type { Product } from "@/features/home/interfaces/products.interface";
+import { type ReactNode, useState } from "react";
 
 interface Column {
   id: keyof Product | string;
@@ -56,6 +57,8 @@ const columns: Column[] = [
 
 export const ProductsTable = () => {
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const {
     data: products,
@@ -65,6 +68,7 @@ export const ProductsTable = () => {
   } = useGetProducts({
     page,
     limit: TOTAL_ITEMS,
+    search: debouncedSearch,
   });
 
   return (
@@ -87,7 +91,14 @@ export const ProductsTable = () => {
           startElement={<Search size={16} />}
           bgColor="background.input"
         >
-          <Input placeholder="Buscar producto..." />
+          <Input
+            placeholder="Buscar producto..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
         </InputGroup>
         <Flex gapX="0.5rem">
           <CreateProductDialog />
@@ -170,7 +181,12 @@ export const ProductsTable = () => {
             {isLoading ? (
               <Grid templateColumns="repeat(1, 1fr)" gap="4" mt="2">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <Box key={index} bgColor="background.card" borderRadius="lg" p="4">
+                  <Box
+                    key={index}
+                    bgColor="background.card"
+                    borderRadius="lg"
+                    p="4"
+                  >
                     <Skeleton height="120px" />
                   </Box>
                 ))}
