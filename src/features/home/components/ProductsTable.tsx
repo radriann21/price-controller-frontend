@@ -12,13 +12,13 @@ import {
   Grid,
 } from "@chakra-ui/react";
 import { Search, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
-import { useGetProducts } from "../hooks/useGetProducts";
+import { useGetProducts } from "@/features/home/hooks/useGetProducts";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { CreateProductDialog } from "./CreateProductDialog";
-import { TOTAL_ITEMS } from "@/shared/constants/constants";
+import { TOTAL_ITEMS } from "@/shared/utils/constants";
 import { ConfirmUpdateDialog } from "./ConfirmUpdateDialog";
 import { ProductCard } from "./ProductCard";
-import type { Product } from "../interfaces/products.interface";
+import type { Product } from "@/features/home/interfaces/products.interface";
 import { type ReactNode, useState } from "react";
 
 interface Column {
