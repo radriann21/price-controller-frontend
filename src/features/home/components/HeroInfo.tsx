@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Heading, Button, Skeleton } from "@chakra-ui/react";
+import { Box, Flex, Text, Heading, Button, Skeleton, Icon } from "@chakra-ui/react";
 import { CircleDollarSign, RefreshCcw, AlertCircle } from "lucide-react";
 import { useGetBCV } from "@/features/home/hooks/useGetBCV";
 import { useRefreshBCV } from "@/features/home/hooks/useRefreshBCV";
@@ -13,7 +13,7 @@ export const HeroInfo = () => {
         width={{ base: "100%", md: "450px" }}
         p={{ base: "1.2rem", md: "1.4rem" }}
         rounded="lg"
-        bgColor="white"
+        bgColor="background.card"
         shadow="md"
         display="flex"
         flexDirection={{ base: "column", sm: "row" }}
@@ -23,11 +23,13 @@ export const HeroInfo = () => {
       >
         <Flex alignItems="center" gapX="1rem" width={{ base: "100%", sm: "auto" }}>
           <Box p="0.7rem" rounded="full" bgColor="orange.100">
-            <CircleDollarSign size={32} color="#ff6b35" strokeWidth={2.5} />
+            <Icon color="icon.primary">
+              <CircleDollarSign size={32} strokeWidth={2.5} />
+            </Icon>
           </Box>
           <Box flex="1">
             <Text
-              color="gray.600"
+              color="text.secondary"
               fontSize="11px"
               textTransform="uppercase"
               fontWeight="medium"
@@ -40,17 +42,17 @@ export const HeroInfo = () => {
               <Skeleton height="44px" width="180px" borderRadius="md" />
             ) : isError ? (
               <Flex alignItems="center" gapX="0.5rem">
-                <AlertCircle size={18} color="#e53e3e" />
-                <Text color="red.600" fontSize="sm" fontWeight="medium">
+                <AlertCircle size={18} color="icon.error" />
+                <Text color="text.error" fontSize="sm" fontWeight="medium">
                   Error al cargar
                 </Text>
               </Flex>
             ) : (
               <Flex alignItems="baseline" gapX="0.3rem">
-                <Heading size="4xl" as="h3" letterSpacing="tight" fontWeight="bold" color="gray.900">
+                <Heading size="4xl" as="h3" letterSpacing="tight" fontWeight="bold" color="text.primary">
                   {bcvRate?.rate || "0.00"}
                 </Heading>
-                <Text color="gray.500" fontSize="sm" fontWeight="medium" textTransform="uppercase" mb="0.2rem">
+                <Text color="text.tertiary" fontSize="sm" fontWeight="medium" textTransform="uppercase" mb="0.2rem">
                   VES/USD
                 </Text>
               </Flex>
@@ -59,20 +61,20 @@ export const HeroInfo = () => {
         </Flex>
         <Button
           onClick={refreshBCV}
-          bgColor="orange.500"
-          color="white"
+          bgColor="brand.primary"
+          color="background.card"
           fontWeight="bold"
           size={{ base: "md", sm: "md" }}
           width={{ base: "100%", sm: "auto" }}
           px="1.5rem"
           borderRadius="md"
           _hover={{ 
-            bgColor: "orange.600",
+            bgColor: "brand.primaryHover",
             transform: "translateY(-1px)",
             shadow: "md"
           }}
           _active={{
-            bgColor: "orange.700",
+            bgColor: "brand.primaryActive",
             transform: "translateY(0)"
           }}
           transition="all 0.2s"

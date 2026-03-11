@@ -8,7 +8,7 @@ interface ProductCardProps {
 export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Card.Root
-      bgColor="white"
+      bgColor="background.card"
       borderRadius="lg"
       overflow="hidden"
       boxShadow="sm"
@@ -21,32 +21,32 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <Card.Body p="4">
         <Flex direction="column" gapY="3">
           <Box>
-            <Text fontSize="lg" fontWeight="bold" color="gray.800">
+            <Text fontSize="lg" fontWeight="bold" color="text.primary">
               {product.name}
             </Text>
           </Box>
 
           <Flex direction="column" gapY="2">
             <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="sm" color="gray.600" fontWeight="medium">
+              <Text fontSize="sm" color="text.secondary" fontWeight="medium">
                 Precio USD
               </Text>
-              <Text fontSize="md" fontWeight="semibold" color="gray.800">
+              <Text fontSize="md" fontWeight="semibold" color="text.primary">
                 ${product.costUsd}
               </Text>
             </Flex>
 
             <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="sm" color="gray.600" fontWeight="medium">
+              <Text fontSize="sm" color="text.secondary" fontWeight="medium">
                 Precio VES
               </Text>
-              <Text fontSize="md" fontWeight="semibold" color="gray.800">
+              <Text fontSize="md" fontWeight="semibold" color="text.primary">
                 Bs. {Number(product.priceVes).toLocaleString("es-VE")}
               </Text>
             </Flex>
 
             <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="sm" color="gray.600" fontWeight="medium">
+              <Text fontSize="sm" color="text.secondary" fontWeight="medium">
                 Margen
               </Text>
               <Text fontSize="md" fontWeight="semibold" color="orange.600">
@@ -54,11 +54,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               </Text>
             </Flex>
 
-            <Flex justifyContent="space-between" alignItems="center" pt="2" borderTopWidth="1px" borderColor="gray.200">
-              <Text fontSize="xs" color="gray.500">
+            <Flex justifyContent="space-between" alignItems="center" pt="2" borderTopWidth="1px" borderColor="border.default">
+              <Text fontSize="xs" color="text.tertiary">
                 Actualizado
               </Text>
-              <Text fontSize="xs" color="gray.600">
+              <Text fontSize="xs" color="text.secondary">
                 {new Date(product.updatedAt).toLocaleDateString("es-VE")}
               </Text>
             </Flex>
