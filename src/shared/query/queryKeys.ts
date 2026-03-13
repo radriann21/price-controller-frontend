@@ -1,6 +1,6 @@
 export const queryKeys = {
-  rates: "rates",
+  rates: ["rates"],
   products: {
-    all: "products",
+    all: ["products"],
   },
 } as const
