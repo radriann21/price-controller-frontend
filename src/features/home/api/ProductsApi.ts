@@ -39,5 +39,25 @@ export const ProductsApi = {
       const appError = handleApiError(error);
       throw appError;
     }
+  },
+
+  async importProducts(file: File) {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axiosClient.post('/products/import-excel', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log("Response:", response.data);
+      
+      return response.data;
+    } catch (error) {
+      const appError = handleApiError(error);
+      throw appError;
+    }
   }
 };

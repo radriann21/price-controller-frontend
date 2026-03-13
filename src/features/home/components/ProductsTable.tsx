@@ -20,6 +20,7 @@ import { ConfirmUpdateDialog } from "./ConfirmUpdateDialog";
 import { ProductCard } from "./ProductCard";
 import type { Product } from "@/features/home/interfaces/products.interface";
 import { type ReactNode, useState } from "react";
+import { ImportProductsDialog } from "./ImportProductsDialog";
 
 interface Column {
   id: keyof Product | string;
@@ -103,6 +104,7 @@ export const ProductsTable = () => {
         <Flex gapX="0.5rem">
           <CreateProductDialog />
           <ConfirmUpdateDialog />
+          <ImportProductsDialog />
         </Flex>
       </Flex>
       {isError ? (
@@ -127,7 +129,7 @@ export const ProductsTable = () => {
         <>
           {/* Desktop Table View */}
           <Box display={{ base: "none", md: "block" }}>
-            <Table.Root striped variant="line">
+            <Table.Root size="sm" striped variant="line">
               <Table.Header>
                 <Table.Row>
                   {columns.map((column) => (
@@ -154,7 +156,7 @@ export const ProductsTable = () => {
                   {products?.data.map((product) => (
                     <Table.Row key={product.id}>
                       {columns.map((column) => (
-                        <Table.Cell key={column.id}>
+                        <Table.Cell key={column.id} fontSize="xs">
                           {column.render
                             ? column.render(product)
                             : product[column.id as keyof Product]}
