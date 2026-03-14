@@ -1,16 +1,17 @@
 import axiosClient from "@/shared/api/axiosClient";
 import { handleApiError } from "@/shared/utils/errorHandler";
-import type { CreateProductDTO, ProductResponse } from "../interfaces/products.interface";
+import type { CreateProductDTO, ProductResponse, UpdateProductDTO } from "../interfaces/products.interface";
 import type { Pagination } from "../interfaces/pagination.interface";
 
 export const ProductsApi = {
-  async getAllProducts({ page, limit, search }: Pagination): Promise<ProductResponse> {
+  async getAllProducts({ page, limit, search, isActive }: Pagination): Promise<ProductResponse> {
     try {
       const response = await axiosClient.get<ProductResponse>('/products', {
         params: {
           page,
           limit,
           search,
+          isActive,
         },
       });
       
@@ -59,5 +60,25 @@ export const ProductsApi = {
       const appError = handleApiError(error);
       throw appError;
     }
-  }
+  },
+
+  async deleteProduct(id: string) {
+    try {
+      const response = await axiosClient.delete(`/products/${id}`);
+      return response.data;
+    } catch (error) {
+      const appError = handleApiError(error);
+      throw appError;
+    }
+  },
+
+  async updateProduct(id: string, product: UpdateProductDTO) {
+    try {
+      const response = await axiosClient.patch(`/products/${id}`, product);
+      return response.data;
+    } catch (error) {
+      const appError = handleApiError(error);
+      throw appError;
+    }
+  },
 };

@@ -12,11 +12,10 @@ import {
 import { Upload, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { importSchema, type ImportFormData } from "../validations/import.validation";
-import { useImportExcel } from "../hooks/useImportExcel";
+import { importSchema, type ImportFormData } from "@/features/home/validations/import.validation";
+import { useImportExcel } from "@/features/home/hooks/products/useImportExcel";
 
 export const ImportProductsDialog = () => {
-  const { mutate: importExcelMutation } = useImportExcel();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -29,6 +28,14 @@ export const ImportProductsDialog = () => {
     reset,
   } = useForm<ImportFormData>({
     resolver: zodResolver(importSchema),
+  });
+
+  const { mutate: importExcelMutation } = useImportExcel({
+    reset: () => {
+      reset();
+      setSelectedFile(null);
+    },
+    close: () => setOpen(false),
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,10 +78,6 @@ export const ImportProductsDialog = () => {
 
   const onSubmit = (data: ImportFormData) => {
     importExcelMutation(data.file[0]);
-    
-    reset();
-    setSelectedFile(null);
-    setOpen(false);
   };
 
   const handleClose = () => {

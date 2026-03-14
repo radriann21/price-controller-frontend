@@ -4,6 +4,9 @@ export interface Product {
   costUsd: number;
   profitMargin: number;
   priceVes: number;
+  category: {
+    name: string;
+  };
   createdAt: string;
   updatedAt: string;
   isActive: boolean;
@@ -22,6 +25,15 @@ export interface ProductResponse {
 export interface CreateProductDTO {
   name: string;
   costUsd: number;
-  profitMargin: number;
+  profitMargin: number | null;
   priceVes: number;
+  categoryId: number;
+}
+
+export interface UpdateProductDTO {
+  name?: string;
+  costUsd?: number;
+  profitMargin?: number;
+  priceVes?: number;
+  categoryId?: number;
 }

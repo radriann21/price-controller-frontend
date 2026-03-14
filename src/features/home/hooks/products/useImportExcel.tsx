@@ -3,7 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { toaster } from "@/shared/components/ui/toaster";
 
-export const useImportExcel = () => {
+export const useImportExcel = ({
+  reset,
+  close,
+}: {
+  reset: () => void;
+  close: () => void;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -14,6 +20,8 @@ export const useImportExcel = () => {
         title: "Éxito",
         description: "Archivo importado correctamente",
       });
+      reset();
+      close();
     },
     onError: (error) => {
       toaster.create({

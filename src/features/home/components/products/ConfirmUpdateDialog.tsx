@@ -1,6 +1,6 @@
 import { Currency } from "lucide-react";
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
-import { useUpdateProductsPrices } from "@/features/home/hooks/useUpdateProductsPrices";
+import { useUpdateProductsPrices } from "@/features/home/hooks/products/useUpdateProductsPrices";
 import { useState } from "react";
 
 export const ConfirmUpdateDialog = () => {

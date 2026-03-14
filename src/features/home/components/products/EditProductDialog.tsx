@@ -6,17 +6,26 @@ import {
   Fieldset,
   Field,
   Input,
+  IconButton,
 } from "@chakra-ui/react";
-import { Plus } from "lucide-react";
+import { Edit } from "lucide-react";
 import {
   productSchema,
   type ProductFormValues,
 } from "@/features/home/validations/product.validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateProducts } from "../hooks/useCreateProducts";
+import { useUpdateProduct } from "@/features/home/hooks/products/useUpdateProduct";
+import type { Product } from "@/features/home/interfaces/products.interface";
+import { useState } from "react";
 
-export const CreateProductDialog = () => {
+interface EditProductDialogProps {
+  product: Product;
+}
+
+export const EditProductDialog = ({ product }: EditProductDialogProps) => {
+  const [open, setOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,35 +33,43 @@ export const CreateProductDialog = () => {
     reset,
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: product.name,
+      costUsd: product.costUsd,
+      priceVes: product.priceVes,
+      profitMargin: product.profitMargin,
+    },
   });
 
-  const { mutate: createProduct } = useCreateProducts({ reset });
+  const { mutate: updateProduct } = useUpdateProduct({
+    onSuccessCallback: () => {
+      setOpen(false);
+      reset();
+    },
+  });
 
   const onSubmit = (data: ProductFormValues) => {
-    createProduct({
-      name: data.name,
-      costUsd: data.costUsd,
-      profitMargin: data.profitMargin ?? 0,
-      priceVes: data.costVes,
+    updateProduct({
+      id: product.id,
+      product: { ...data, profitMargin: data.profitMargin ?? 0 },
     });
   };
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
-        <Button fontWeight="bold" px="1rem">
-          <Plus size={16} />
-          Nuevo Producto
-        </Button>
+        <IconButton variant="ghost" colorPalette="orange" size="xs">
+          <Edit />
+        </IconButton>
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header display="flex" flexDirection="column">
-              <Dialog.Title>Nuevo Producto</Dialog.Title>
+              <Dialog.Title>Editar Producto</Dialog.Title>
               <Dialog.Description>
-                Ingresa la información del producto
+                Modifica la información del producto
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body>
@@ -87,18 +104,18 @@ export const CreateProductDialog = () => {
                         </Field.ErrorText>
                       )}
                     </Field.Root>
-                    <Field.Root invalid={!!errors.costVes}>
+                    <Field.Root invalid={!!errors.priceVes}>
                       <Field.Label fontWeight="semibold">
                         Costo VES
                         <span style={{ color: "red" }}>*</span>
                       </Field.Label>
                       <Input
                         placeholder="Costo en VES..."
-                        {...register("costVes", { valueAsNumber: true })}
+                        {...register("priceVes", { valueAsNumber: true })}
                       />
-                      {errors.costVes && (
+                      {errors.priceVes && (
                         <Field.ErrorText>
-                          {errors.costVes.message}
+                          {errors.priceVes.message}
                         </Field.ErrorText>
                       )}
                     </Field.Root>
@@ -121,14 +138,14 @@ export const CreateProductDialog = () => {
                     </Field.Root>
                   </Fieldset.Content>
                   <Button type="submit" colorPalette="green">
-                    Guardar Producto
+                    Actualizar Producto
                   </Button>
                 </Fieldset.Root>
               </form>
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button>Cancelar</Button>
+                <Button onClick={() => setOpen(false)}>Cancelar</Button>
               </Dialog.ActionTrigger>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>

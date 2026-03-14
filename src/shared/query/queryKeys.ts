@@ -3,4 +3,8 @@ export const queryKeys = {
   products: {
     all: ["products"],
   },
+  categories: {
+    all: ["categories"],
+  },
+  globalMargin: ["global-margin"]
 } as const

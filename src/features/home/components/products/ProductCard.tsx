@@ -1,5 +1,7 @@
-import { Box, Flex, Text, Card } from "@chakra-ui/react";
+import { Box, Flex, Text, Card, Badge, ButtonGroup } from "@chakra-ui/react";
 import type { Product } from "@/features/home/interfaces/products.interface";
+import { EditProductDialog } from "@/features/home/components/products/EditProductDialog";
+import { ConfirmDeleteDialog } from "@/features/home/components/products/ConfirmDeleteDialog";
 
 interface ProductCardProps {
   product: Product;
@@ -61,6 +63,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               <Text fontSize="xs" color="text.secondary">
                 {new Date(product.updatedAt).toLocaleDateString("es-VE")}
               </Text>
+            </Flex>
+
+            <Flex justifyContent="space-between" alignItems="center" pt="2">
+              <Badge colorPalette={product.isActive ? "green" : "red"} size="sm">
+                {product.isActive ? "Activo" : "Inactivo"}
+              </Badge>
+              <ButtonGroup size="sm">
+                <EditProductDialog product={product} />
+                <ConfirmDeleteDialog productId={product.id} />
+              </ButtonGroup>
             </Flex>
           </Flex>
         </Flex>
