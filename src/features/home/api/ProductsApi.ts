@@ -1,6 +1,6 @@
 import axiosClient from "@/shared/api/axiosClient";
 import { handleApiError } from "@/shared/utils/errorHandler";
-import type { CreateProductDTO, ProductResponse } from "../interfaces/products.interface";
+import type { CreateProductDTO, ProductResponse, UpdateProductDTO } from "../interfaces/products.interface";
 import type { Pagination } from "../interfaces/pagination.interface";
 
 export const ProductsApi = {
@@ -54,6 +54,26 @@ export const ProductsApi = {
 
       console.log("Response:", response.data);
       
+      return response.data;
+    } catch (error) {
+      const appError = handleApiError(error);
+      throw appError;
+    }
+  },
+
+  async deleteProduct(id: string) {
+    try {
+      const response = await axiosClient.delete(`/products/${id}`);
+      return response.data;
+    } catch (error) {
+      const appError = handleApiError(error);
+      throw appError;
+    }
+  },
+
+  async updateProduct(id: string, product: UpdateProductDTO) {
+    try {
+      const response = await axiosClient.patch(`/products/${id}`, product);
       return response.data;
     } catch (error) {
       const appError = handleApiError(error);

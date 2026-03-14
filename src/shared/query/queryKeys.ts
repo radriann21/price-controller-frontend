@@ -3,4 +3,7 @@ export const queryKeys = {
   products: {
     all: ["products"],
   },
+  categories: {
+    all: ["categories"],
+  },
 } as const

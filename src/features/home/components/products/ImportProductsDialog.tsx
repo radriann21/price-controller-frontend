@@ -12,8 +12,8 @@ import {
 import { Upload, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { importSchema, type ImportFormData } from "../validations/import.validation";
-import { useImportExcel } from "../hooks/useImportExcel";
+import { importSchema, type ImportFormData } from "@/features/home/validations/import.validation";
+import { useImportExcel } from "@/features/home/hooks/useImportExcel";
 
 export const ImportProductsDialog = () => {
   const { mutate: importExcelMutation } = useImportExcel();
