@@ -25,8 +25,9 @@ export interface ProductResponse {
 export interface CreateProductDTO {
   name: string;
   costUsd: number;
-  profitMargin: number;
+  profitMargin: number | null;
   priceVes: number;
+  categoryId: number;
 }
 
 export interface UpdateProductDTO {
@@ -34,4 +35,5 @@ export interface UpdateProductDTO {
   costUsd?: number;
   profitMargin?: number;
   priceVes?: number;
+  categoryId?: number;
 }

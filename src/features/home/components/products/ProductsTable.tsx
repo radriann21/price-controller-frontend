@@ -10,14 +10,10 @@ import {
   Box,
   Grid,
   Badge,
+  NativeSelect,
 } from "@chakra-ui/react";
-import {
-  Search,
-  ChevronLeft,
-  ChevronRight,
-  AlertCircle,
-} from "lucide-react";
-import { useGetProducts } from "@/features/home/hooks/useGetProducts";
+import { Search, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
+import { useGetProducts } from "@/features/home/hooks/products/useGetProducts";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { CreateProductDialog } from "@/features/home/components/products/CreateProductDialog";
 import { TOTAL_ITEMS } from "@/shared/utils/constants";
@@ -45,17 +41,29 @@ const columns: Column[] = [
   {
     id: "costUsd",
     header: "Precio USD",
-    render: (item) => item.costUsd,
+    render: (item) => {
+      const USDPrice = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(item.costUsd);
+      return <Text>{USDPrice}</Text>;
+    },
   },
   {
     id: "priceVes",
-    header: "Precio VES",
-    render: (item) => Number(item.priceVes).toLocaleString("es-VE"),
+    header: "Precio Bs.S",
+    render: (item) => {
+      const VESPrice = new Intl.NumberFormat("es-VE", {
+        style: "currency",
+        currency: "VES",
+      }).format(item.priceVes);
+      return <Text>{VESPrice}</Text>;
+    },
   },
   {
     id: "profitMargin",
     header: "Margen",
-    render: (item) => item.profitMargin,
+    render: (item) => <Text>{item.profitMargin}%</Text>,
   },
   {
     id: "category",
@@ -91,6 +99,7 @@ const columns: Column[] = [
 export const ProductsTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [isActive, setIsActive] = useState<string | undefined>(undefined);
   const debouncedSearch = useDebounce(search, 500);
 
   const {
@@ -102,6 +111,7 @@ export const ProductsTable = () => {
     page,
     limit: TOTAL_ITEMS,
     search: debouncedSearch,
+    isActive,
   });
 
   return (
@@ -113,20 +123,36 @@ export const ProductsTable = () => {
         justifyContent="space-between"
         gapY={{ base: "0.75rem", md: "0" }}
       >
-        <InputGroup
-          width={{ base: "100%", md: "320px" }}
-          startElement={<Search size={16} />}
-          bgColor="background.input"
-        >
-          <Input
-            placeholder="Buscar por nombre o categoría..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-          />
-        </InputGroup>
+        <Flex alignItems="center" gapX="0.5rem">
+          <InputGroup
+            width={{ base: "100%", md: "340px" }}
+            startElement={<Search size={16} />}
+            bgColor="background.input"
+          >
+            <Input
+              placeholder="Buscar por nombre o categoría..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+            />
+          </InputGroup>
+          <NativeSelect.Root size="sm" width="140px" bgColor="white">
+            <NativeSelect.Field
+              placeholder="Filtrar por..."
+              value={isActive}
+              onChange={(e) => {
+                setIsActive(e.target.value || undefined);
+                setPage(1);
+              }}
+            >
+              <option value="true">Activos</option>
+              <option value="false">Inactivos</option>
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
+        </Flex>
         <Flex gapX="0.5rem">
           <CreateProductDialog />
           <ConfirmUpdateDialog />
@@ -155,7 +181,7 @@ export const ProductsTable = () => {
         <>
           {/* Desktop Table View */}
           <Box display={{ base: "none", md: "block" }}>
-            <CustomTable 
+            <CustomTable
               columns={columns}
               data={products?.data || []}
               isLoading={isLoading}

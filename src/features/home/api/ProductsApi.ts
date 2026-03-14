@@ -4,13 +4,14 @@ import type { CreateProductDTO, ProductResponse, UpdateProductDTO } from "../int
 import type { Pagination } from "../interfaces/pagination.interface";
 
 export const ProductsApi = {
-  async getAllProducts({ page, limit, search }: Pagination): Promise<ProductResponse> {
+  async getAllProducts({ page, limit, search, isActive }: Pagination): Promise<ProductResponse> {
     try {
       const response = await axiosClient.get<ProductResponse>('/products', {
         params: {
           page,
           limit,
           search,
+          isActive,
         },
       });
       

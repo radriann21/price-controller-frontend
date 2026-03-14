@@ -6,13 +6,20 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { Trash2 } from "lucide-react";
-import { useDeleteCategory } from "@/features/home/hooks/useDeleteCategory";
+import { useDeleteCategory } from "@/features/home/hooks/categories/useDeleteCategory";
+import { useState } from "react";
 
 export const ConfirmDeleteCategoryDialog = ({ categoryId }: { categoryId: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate: deleteCategory } = useDeleteCategory();
 
+  const handleDelete = () => {
+    deleteCategory(categoryId);
+    setIsOpen(false);
+  };
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Dialog.Trigger asChild>
         <IconButton variant="ghost" colorPalette="orange" size="xs">
           <Trash2 />
@@ -40,7 +47,7 @@ export const ConfirmDeleteCategoryDialog = ({ categoryId }: { categoryId: string
                 colorPalette="red"
                 fontWeight="bold"
                 size="sm"
-                onClick={() => deleteCategory(categoryId)}
+                onClick={handleDelete}
               >
                 Eliminar
               </Button>

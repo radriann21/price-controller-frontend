@@ -6,6 +6,7 @@ import {
   Fieldset,
   Field,
   Input,
+  NativeSelect,
 } from "@chakra-ui/react";
 import { Plus } from "lucide-react";
 import {
@@ -14,9 +15,13 @@ import {
 } from "@/features/home/validations/product.validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateProducts } from "@/features/home/hooks/useCreateProducts";
+import { useCreateProducts } from "@/features/home/hooks/products/useCreateProducts";
+import { useGetCategories } from "@/features/home/hooks/categories/useGetCategories";
+import { useState } from "react";
 
 export const CreateProductDialog = () => {
+  const [open, setOpen] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -24,21 +29,23 @@ export const CreateProductDialog = () => {
     reset,
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: "",
+      costUsd: 0,
+      profitMargin: 0,
+      priceVes: 0,
+    },
   });
 
-  const { mutate: createProduct } = useCreateProducts({ reset });
+  const { mutate: createProduct } = useCreateProducts({ reset, close: () => setOpen(false) });
+  const { data: categories } = useGetCategories({ page: 1, limit: 100 });
 
   const onSubmit = (data: ProductFormValues) => {
-    createProduct({
-      name: data.name,
-      costUsd: data.costUsd,
-      profitMargin: data.profitMargin ?? 0,
-      priceVes: data.costVes,
-    });
+    createProduct({ ...data, profitMargin: data.profitMargin ?? 0 });
   };
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
         <Button fontWeight="bold" px="1rem">
           <Plus size={16} />
@@ -87,18 +94,18 @@ export const CreateProductDialog = () => {
                         </Field.ErrorText>
                       )}
                     </Field.Root>
-                    <Field.Root invalid={!!errors.costVes}>
+                    <Field.Root invalid={!!errors.priceVes}>
                       <Field.Label fontWeight="semibold">
                         Costo VES
                         <span style={{ color: "red" }}>*</span>
                       </Field.Label>
                       <Input
                         placeholder="Costo en VES..."
-                        {...register("costVes", { valueAsNumber: true })}
+                        {...register("priceVes", { valueAsNumber: true })}
                       />
-                      {errors.costVes && (
+                      {errors.priceVes && (
                         <Field.ErrorText>
-                          {errors.costVes.message}
+                          {errors.priceVes.message}
                         </Field.ErrorText>
                       )}
                     </Field.Root>
@@ -118,6 +125,24 @@ export const CreateProductDialog = () => {
                       <Field.HelperText>
                         Este campo es opcional
                       </Field.HelperText>
+                    </Field.Root>
+                    <Field.Root invalid={!!errors.categoryId}>
+                      <Field.Label>Categoría</Field.Label>
+                      <NativeSelect.Root size="sm">
+                        <NativeSelect.Field
+                          placeholder="Selecciona una categoría"
+                          {...register("categoryId", { valueAsNumber: true })}
+                        >
+                          {categories?.data.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </NativeSelect.Field>
+                      </NativeSelect.Root>
+                      <Field.ErrorText>
+                        {errors.categoryId?.message}
+                      </Field.ErrorText>
                     </Field.Root>
                   </Fieldset.Content>
                   <Button type="submit" colorPalette="green">

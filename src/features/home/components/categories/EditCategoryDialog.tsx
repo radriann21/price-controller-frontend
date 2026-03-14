@@ -16,7 +16,7 @@ import {
 } from "@/features/home/validations/category.validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUpdateCategory } from "@/features/home/hooks/useUpdateCategory";
+import { useUpdateCategory } from "@/features/home/hooks/categories/useUpdateCategory";
 import type { Category } from "@/features/home/interfaces/categories.interface";
 import { useState } from "react";
 

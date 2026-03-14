@@ -6,9 +6,9 @@ import { useSSE } from "@/shared/hooks/useSSE";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { toaster } from "@/shared/components/ui/toaster";
-import type { SSEResponse } from "@/shared/interfaces/interfaces";
 import { BoxIcon, Tag } from "lucide-react";
 import { CategoriesTable } from "./components/categories/CategoriesTable";
+import type { SSEResponse } from "@/shared/interfaces/interfaces";
 
 const Home = () => {
   const queryClient = useQueryClient();
@@ -25,7 +25,11 @@ const Home = () => {
       });
     },
     onError: (error) => {
-      console.log("error", error);
+      toaster.create({
+        title: "Ocurrio un error al actualizar",
+        description: error.type,
+        type: "error",
+      });
     },
   });
 

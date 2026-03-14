@@ -15,9 +15,12 @@ import {
 } from "@/features/home/validations/category.validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateCategory } from "@/features/home/hooks/useCreateCategory";
+import { useCreateCategory } from "@/features/home/hooks/categories/useCreateCategory";
+import { useState } from "react";
 
 export const CreateCategoryDialog = () => {
+  const [open, setOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -25,19 +28,20 @@ export const CreateCategoryDialog = () => {
     reset,
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
+    defaultValues: {
+      name: "",
+      description: "",
+    },
   });
 
-  const { mutate: createCategory } = useCreateCategory({ reset });
+  const { mutate: createCategory } = useCreateCategory({ reset, close: () => setOpen(false) });
 
   const onSubmit = (data: CategoryFormValues) => {
-    createCategory({
-      name: data.name,
-      description: data.description,
-    });
+    createCategory(data);
   };
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
         <Button fontWeight="bold" px="1rem">
           <Plus size={16} />

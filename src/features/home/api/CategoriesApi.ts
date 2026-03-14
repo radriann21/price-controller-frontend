@@ -4,13 +4,14 @@ import type { CreateCategoryDTO, CategoryResponse, UpdateCategoryDTO } from "../
 import type { Pagination } from "../interfaces/pagination.interface";
 
 export const CategoriesApi = {
-  async getAllCategories({ page, limit, search }: Pagination): Promise<CategoryResponse> {
+  async getAllCategories({ page, limit, search, isActive }: Pagination): Promise<CategoryResponse> {
     try {
       const response = await axiosClient.get<CategoryResponse>('/categories', {
         params: {
           page,
           limit,
           search,
+          isActive,
         },
       });
       

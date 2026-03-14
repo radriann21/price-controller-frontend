@@ -15,7 +15,7 @@ import {
 } from "@/features/home/validations/product.validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUpdateProduct } from "@/features/home/hooks/useUpdateProduct";
+import { useUpdateProduct } from "@/features/home/hooks/products/useUpdateProduct";
 import type { Product } from "@/features/home/interfaces/products.interface";
 import { useState } from "react";
 
@@ -36,7 +36,7 @@ export const EditProductDialog = ({ product }: EditProductDialogProps) => {
     defaultValues: {
       name: product.name,
       costUsd: product.costUsd,
-      costVes: product.priceVes,
+      priceVes: product.priceVes,
       profitMargin: product.profitMargin,
     },
   });
@@ -51,12 +51,7 @@ export const EditProductDialog = ({ product }: EditProductDialogProps) => {
   const onSubmit = (data: ProductFormValues) => {
     updateProduct({
       id: product.id,
-      product: {
-        name: data.name,
-        costUsd: data.costUsd,
-        profitMargin: data.profitMargin ?? 0,
-        priceVes: data.costVes,
-      },
+      product: { ...data, profitMargin: data.profitMargin ?? 0 },
     });
   };
 
@@ -109,18 +104,18 @@ export const EditProductDialog = ({ product }: EditProductDialogProps) => {
                         </Field.ErrorText>
                       )}
                     </Field.Root>
-                    <Field.Root invalid={!!errors.costVes}>
+                    <Field.Root invalid={!!errors.priceVes}>
                       <Field.Label fontWeight="semibold">
                         Costo VES
                         <span style={{ color: "red" }}>*</span>
                       </Field.Label>
                       <Input
                         placeholder="Costo en VES..."
-                        {...register("costVes", { valueAsNumber: true })}
+                        {...register("priceVes", { valueAsNumber: true })}
                       />
-                      {errors.costVes && (
+                      {errors.priceVes && (
                         <Field.ErrorText>
-                          {errors.costVes.message}
+                          {errors.priceVes.message}
                         </Field.ErrorText>
                       )}
                     </Field.Root>

@@ -8,8 +8,8 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { CircleDollarSign, RefreshCcw, AlertCircle } from "lucide-react";
-import { useGetBCV } from "@/features/home/hooks/useGetBCV";
-import { useRefreshBCV } from "@/features/home/hooks/useRefreshBCV";
+import { useGetBCV } from "@/features/home/hooks/rate/useGetBCV";
+import { useRefreshBCV } from "@/features/home/hooks/rate/useRefreshBCV";
 import { GlobalMargin } from "./GlobalMargin";
 
 export const HeroInfo = () => {

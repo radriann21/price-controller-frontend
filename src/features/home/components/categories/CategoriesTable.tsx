@@ -10,6 +10,7 @@ import {
   Box,
   Grid,
   Badge,
+  NativeSelect,
 } from "@chakra-ui/react";
 import {
   Search,
@@ -17,7 +18,7 @@ import {
   ChevronRight,
   AlertCircle,
 } from "lucide-react";
-import { useGetCategories } from "@/features/home/hooks/useGetCategories";
+import { useGetCategories } from "@/features/home/hooks/categories/useGetCategories";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { CreateCategoryDialog } from "./CreateCategoryDialog";
 import { TOTAL_ITEMS } from "@/shared/utils/constants";
@@ -68,6 +69,7 @@ const columns: ColumnDef<Category>[] = [
 export const CategoriesTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [isActive, setIsActive] = useState<string | undefined>(undefined);
   const debouncedSearch = useDebounce(search, 500);
 
   const {
@@ -79,6 +81,7 @@ export const CategoriesTable = () => {
     page,
     limit: TOTAL_ITEMS,
     search: debouncedSearch,
+    isActive,
   });
 
   return (
@@ -90,20 +93,36 @@ export const CategoriesTable = () => {
         justifyContent="space-between"
         gapY={{ base: "0.75rem", md: "0" }}
       >
-        <InputGroup
-          width={{ base: "100%", md: "420px" }}
-          startElement={<Search size={16} />}
-          bgColor="background.input"
-        >
-          <Input
-            placeholder="Buscar por nombre..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-          />
-        </InputGroup>
+        <Flex alignItems="center" gapX="0.5rem">
+          <InputGroup
+            width={{ base: "100%", md: "340px" }}
+            startElement={<Search size={16} />}
+            bgColor="background.input"
+          >
+            <Input
+              placeholder="Buscar por nombre..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+            />
+          </InputGroup>
+          <NativeSelect.Root size="sm" width="140px" bgColor="white">
+            <NativeSelect.Field
+              placeholder="Filtrar por..."
+              value={isActive}
+              onChange={(e) => {
+                setIsActive(e.target.value || undefined);
+                setPage(1);
+              }}
+            >
+              <option value="true">Activas</option>
+              <option value="false">Inactivas</option>
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
+        </Flex>
         <Flex gapX="0.5rem">
           <CreateCategoryDialog />
         </Flex>

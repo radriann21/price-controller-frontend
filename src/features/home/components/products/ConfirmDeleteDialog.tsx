@@ -6,13 +6,20 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { Trash2 } from "lucide-react";
-import { useDeleteProduct } from "@/features/home/hooks/useDeleteProduct";
+import { useDeleteProduct } from "@/features/home/hooks/products/useDeleteProduct";
+import { useState } from "react";
 
 export const ConfirmDeleteDialog = ({ productId }: { productId: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate: deleteProduct } = useDeleteProduct();
 
+  const handleDelete = () => {
+    deleteProduct(productId);
+    setIsOpen(false);
+  };
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Dialog.Trigger asChild>
         <IconButton variant="ghost" colorPalette="orange" size="xs">
           <Trash2 />
@@ -40,7 +47,7 @@ export const ConfirmDeleteDialog = ({ productId }: { productId: string }) => {
                 colorPalette="red"
                 fontWeight="bold"
                 size="sm"
-                onClick={() => deleteProduct(productId)}
+                onClick={handleDelete}
               >
                 Eliminar
               </Button>
