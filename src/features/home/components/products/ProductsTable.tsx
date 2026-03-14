@@ -114,7 +114,7 @@ export const ProductsTable = () => {
         gapY={{ base: "0.75rem", md: "0" }}
       >
         <InputGroup
-          width={{ base: "100%", md: "420px" }}
+          width={{ base: "100%", md: "320px" }}
           startElement={<Search size={16} />}
           bgColor="background.input"
         >

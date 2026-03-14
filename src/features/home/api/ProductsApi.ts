@@ -79,5 +79,5 @@ export const ProductsApi = {
       const appError = handleApiError(error);
       throw appError;
     }
-  }
+  },
 };
