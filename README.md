@@ -1,73 +1,134 @@
-# React + TypeScript + Vite
+# Price Controller Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para la gestión y control de precios de productos, con actualización automática de tasas de cambio y cálculo de márgenes de ganancia.
 
-Currently, two official plugins are available:
+## 📋 Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Price Controller es una aplicación frontend desarrollada en React que permite administrar un catálogo de productos y categorías, con funcionalidades de control de precios basadas en tasas de cambio actualizadas en tiempo real. La aplicación está diseñada para negocios que necesitan ajustar precios dinámicamente según la fluctuación de divisas.
 
-## React Compiler
+## ✨ Características Principales
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+### Gestión de Productos
+- **CRUD completo**: Crear, leer, actualizar y eliminar productos
+- **Importación masiva**: Carga de productos mediante archivos
+- **Actualización de precios**: Recalcular precios de productos basados en la tasa actual
+- **Paginación**: Navegación eficiente de grandes catálogos
 
-## Expanding the ESLint configuration
+### Gestión de Categorías
+- **Organización**: Clasificación de productos por categorías
+- **CRUD de categorías**: Administración completa de categorías
+- **Visualización en tarjetas**: Interfaz intuitiva para gestionar categorías
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Sistema de Tasas
+- **Actualización en tiempo real**: Conexión SSE (Server-Sent Events) para recibir actualizaciones automáticas de tasas
+- **Notificaciones**: Alertas cuando la tasa se actualiza
+- **Margen global**: Configuración de margen de ganancia aplicable a todos los productos
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Autenticación
+- **Login seguro**: Sistema de autenticación de usuarios
+- **Rutas protegidas**: Acceso controlado a las funcionalidades principales
+- **Persistencia de sesión**: Manejo de estado de autenticación con Zustand
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Stack Tecnológico
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Core
+- **React 19.2**: Biblioteca principal para la UI
+- **TypeScript 5.9**: Tipado estático
+- **Vite 7.3**: Build tool y dev server
+
+### UI/UX
+- **Chakra UI 3.34**: Sistema de componentes y diseño
+- **Lucide React**: Iconografía moderna
+- **Emotion**: CSS-in-JS para estilos
+
+### Estado y Datos
+- **Zustand 5.0**: Gestión de estado global
+- **TanStack Query 5.90**: Manejo de estado del servidor y caché
+- **Axios 1.13**: Cliente HTTP para peticiones API
+
+### Formularios y Validación
+- **React Hook Form 7.71**: Gestión de formularios
+- **Zod 4.3**: Validación de esquemas
+- **@hookform/resolvers**: Integración de Zod con React Hook Form
+
+### Routing
+- **React Router 7.13**: Navegación y rutas
+
+
+## 🚀 Instalación y Uso
+
+### Prerrequisitos
+- Node.js (versión 18 o superior)
+- pnpm (gestor de paquetes)
+
+### Instalación
+
+```bash
+# Clonar el repositorio
+git clone <repository-url>
+
+# Instalar dependencias
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Configuración
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Crear un archivo `.env` en la raíz del proyecto:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_URL=api-url
+VITE_SSE_URL=sse-url
 ```
+
+### Comandos Disponibles
+
+```bash
+# Modo desarrollo
+pnpm dev
+
+# Build de producción
+pnpm build
+
+# Preview del build
+pnpm preview
+
+# Linting
+pnpm lint
+```
+
+## 🔌 Integración con Backend
+
+La aplicación se conecta a una API REST que debe proporcionar los siguientes endpoints:
+
+- **Auth**: `/auth/login`
+- **Products**: `/products` (GET, POST, PUT, DELETE)
+- **Categories**: `/categories` (GET, POST, PUT, DELETE)
+- **Rates**: `/rates` (GET, actualización vía SSE)
+- **Global Margin**: `/global-margin` (GET, PUT)
+- **Prices**: `/prices/update` (actualización masiva)
+
+## 🎨 Características de UI
+
+- **Diseño responsive**: Adaptable a diferentes tamaños de pantalla
+- **Sistema de pestañas**: Navegación entre productos y categorías
+- **Diálogos modales**: Para crear, editar y confirmar acciones
+- **Notificaciones toast**: Feedback visual de operaciones
+- **Lazy loading**: Carga diferida de componentes para mejor rendimiento
+
+## 🔐 Seguridad
+
+- Rutas protegidas mediante `ProtectedRoute`
+- Validación de formularios con Zod
+- Manejo seguro de tokens de autenticación
+- Variables de entorno para configuración sensible
+
+## 📦 Optimizaciones
+
+- **Code splitting**: Lazy loading de rutas
+- **SWC**: Compilador rápido para React
+- **Terser**: Minificación de código
+- **Path aliases**: Importaciones limpias con `@/`
+
+## 🤝 Contribución
+
+Este proyecto sigue una arquitectura modular basada en features, facilitando la escalabilidad y el mantenimiento del código.
