@@ -15,7 +15,14 @@ export const ConfirmUpdateDialog = () => {
         <Button
           bgColor="brand.primary"
           color="background.card"
-          fontWeight="bold"
+          fontWeight="semibold"
+          size={{ base: "md", md: "sm", lg: "md" }}
+          px={{ base: "1rem", md: "0.875rem", lg: "1.25rem" }}
+          py={{ base: "1.25rem", md: "auto" }}
+          width={{ base: "100%", sm: "auto" }}
+          gap="0.5rem"
+          fontSize={{ base: "sm", md: "xs", lg: "sm" }}
+          whiteSpace="nowrap"
           _hover={{
             bg: "brand.primaryHover",
           }}

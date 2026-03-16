@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GlobalMarginApi } from "../api/GlobalMarginApi";
+import { GlobalMarginApi } from "@/features/home/api/GlobalMarginApi";
 import { queryKeys } from "@/shared/query/queryKeys";
 
 export const useGetGlobalMargin = () => {

@@ -5,21 +5,23 @@ import {
   globalMarginSchema,
   type GlobalMarginFormValues,
 } from "@/features/home/validations/globalMargin.validation";
-import { useCreateGlobalMargin } from "@/features/home/hooks/useCreateGlobalMargin";
-import { useGetGlobalMargin } from "@/features/home/hooks/useGetGlobalMargin";
+import { useCreateGlobalMargin } from "@/features/home/hooks/globalMargin/useCreateGlobalMargin";
+import { useGetGlobalMargin } from "@/features/home/hooks/globalMargin/useGetGlobalMargin";
 
 export const GlobalMargin = () => {
-  const { mutate: createGlobalMargin } = useCreateGlobalMargin();
   const { data: globalMargin } = useGetGlobalMargin();
-
+  
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<GlobalMarginFormValues>({
     resolver: zodResolver(globalMarginSchema),
   });
-
+  
+  const { mutate: createGlobalMargin } = useCreateGlobalMargin({ reset });
+  
   const onSubmit = (data: GlobalMarginFormValues) => {
     createGlobalMargin(data);
   };
@@ -28,26 +30,38 @@ export const GlobalMargin = () => {
     <Box
       as="article"
       width={{ base: "100%", md: "450px" }}
-      p={{ base: "1.2rem", md: "1.4rem" }}
+      p={{ base: "1rem", md: "1.4rem" }}
       rounded="lg"
       bgColor="background.card"
       shadow="md"
     >
-      <Flex alignItems="center" justifyContent="space-between">
-        <Heading size="lg" as="h2" color="text.primary">
-          Margen Global
-        </Heading>
-        <Heading size="xl" as="h2" color="text.primary">
+      <Flex 
+        alignItems={{ base: "flex-start", md: "center" }} 
+        justifyContent="space-between"
+        flexDirection={{ base: "column", md: "row" }}
+        gap={{ base: "0.5rem", md: "0" }}
+      >
+        <Box>
+          <Heading size={{ base: "md", md: "lg" }} as="h2" color="text.primary">
+            Margen Global
+          </Heading>
+          <Text color="text.secondary" fontSize={{ base: "xs", md: "sm" }} mt={{ base: "0.25rem", md: "0.5rem" }}>
+            Configura el margen global para todos los productos
+          </Text>
+        </Box>
+        <Heading 
+          size={{ base: "lg", md: "xl" }} 
+          as="h2" 
+          color="text.primary"
+          flexShrink={0}
+        >
           {globalMargin?.profitMargin}%
         </Heading>
       </Flex>
-      <Text color="text.secondary" fontSize="sm">
-        Configura el margen global para todos los productos
-      </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Field.Root invalid={!!errors.profitMargin}>
           <Input
-            mt="10px"
+            mt={{ base: "0.75rem", md: "10px" }}
             size="sm"
             placeholder="Margen..."
             {...register("profitMargin", { valueAsNumber: true })}

@@ -1,4 +1,4 @@
-import { ProductsApi } from "../api/ProductsApi";
+import { ProductsApi } from "@/features/home/api/ProductsApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { toaster } from "@/shared/components/ui/toaster";

@@ -92,8 +92,15 @@ export const ImportProductsDialog = () => {
         <Button
           bgColor="green.600"
           color="white"
-          fontWeight="bold"
-          _hover={{ bgColor: "green.800" }}
+          fontWeight="semibold"
+          size={{ base: "md", md: "sm", lg: "md" }}
+          px={{ base: "1rem", md: "0.875rem", lg: "1.25rem" }}
+          py={{ base: "1.25rem", md: "auto" }}
+          width={{ base: "100%", sm: "auto" }}
+          gap="0.5rem"
+          fontSize={{ base: "sm", md: "xs", lg: "sm" }}
+          whiteSpace="nowrap"
+          _hover={{ bgColor: "green.700" }}
         >
           Importar Productos
           <Upload size={16} />

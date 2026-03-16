@@ -47,7 +47,18 @@ export const CreateProductDialog = () => {
   return (
     <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
-        <Button fontWeight="bold" px="1rem">
+        <Button 
+          fontWeight="semibold" 
+          px={{ base: "1rem", md: "0.875rem", lg: "1.25rem" }}
+          py={{ base: "1.25rem", md: "auto" }}
+          size={{ base: "md", md: "sm", lg: "md" }}
+          width={{ base: "100%", sm: "auto" }}
+          colorPalette="gray"
+          variant="solid"
+          gap="0.5rem"
+          fontSize={{ base: "sm", md: "xs", lg: "sm" }}
+          whiteSpace="nowrap"
+        >
           <Plus size={16} />
           Nuevo Producto
         </Button>
