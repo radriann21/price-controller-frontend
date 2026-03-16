@@ -20,15 +20,17 @@ export const HeroInfo = () => {
     <Flex
       as="section"
       w="100%"
-      alignItems="center"
+      alignItems={{ base: "stretch", lg: "center" }}
       justifyContent="space-between"
-      my="2rem"
+      flexDirection={{ base: "column", lg: "row" }}
+      gap={{ base: "1rem", lg: "1.5rem" }}
+      my={{ base: "1rem", md: "2rem" }}
       px={{ base: "1rem", md: "2rem" }}
     >
       <Box
         as="article"
-        width={{ base: "100%", md: "450px" }}
-        p={{ base: "1.2rem", md: "1.4rem" }}
+        width={{ base: "100%", lg: "450px" }}
+        p={{ base: "1rem", md: "1.4rem" }}
         rounded="lg"
         bgColor="background.card"
         shadow="md"
@@ -36,22 +38,22 @@ export const HeroInfo = () => {
         flexDirection={{ base: "column", sm: "row" }}
         alignItems={{ base: "flex-start", sm: "center" }}
         justifyContent="space-between"
-        gap={{ base: "1.2rem", sm: "1rem" }}
+        gap={{ base: "1rem", sm: "1rem" }}
       >
         <Flex
           alignItems="center"
-          gapX="1rem"
+          gapX={{ base: "0.75rem", md: "1rem" }}
           width={{ base: "100%", sm: "auto" }}
         >
-          <Box p="0.7rem" rounded="full" bgColor="orange.100">
+          <Box p={{ base: "0.6rem", md: "0.7rem" }} rounded="full" bgColor="orange.100">
             <Icon color="icon.primary">
-              <CircleDollarSign size={32} strokeWidth={2.5} />
+              <CircleDollarSign size={28} strokeWidth={2.5} />
             </Icon>
           </Box>
           <Box flex="1">
             <Text
               color="text.secondary"
-              fontSize="11px"
+              fontSize={{ base: "10px", md: "11px" }}
               textTransform="uppercase"
               fontWeight="medium"
               letterSpacing="wide"
@@ -71,7 +73,7 @@ export const HeroInfo = () => {
             ) : (
               <Flex alignItems="baseline" gapX="0.3rem">
                 <Heading
-                  size="4xl"
+                  size={{ base: "3xl", md: "4xl" }}
                   as="h3"
                   letterSpacing="tight"
                   fontWeight="bold"
@@ -81,7 +83,7 @@ export const HeroInfo = () => {
                 </Heading>
                 <Text
                   color="text.tertiary"
-                  fontSize="sm"
+                  fontSize={{ base: "xs", md: "sm" }}
                   fontWeight="medium"
                   textTransform="uppercase"
                   mb="0.2rem"
@@ -99,7 +101,7 @@ export const HeroInfo = () => {
           fontWeight="bold"
           size={{ base: "md", sm: "md" }}
           width={{ base: "100%", sm: "auto" }}
-          px="1.5rem"
+          px={{ base: "1.2rem", md: "1.5rem" }}
           borderRadius="md"
           _hover={{
             bgColor: "brand.primaryHover",

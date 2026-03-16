@@ -1,4 +1,4 @@
-import { CategoriesApi } from "../api/CategoriesApi";
+import { CategoriesApi } from "@/features/home/api/CategoriesApi";
 import { useMutation } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { toaster } from "@/shared/components/ui/toaster";

@@ -34,24 +34,40 @@ const Home = () => {
   });
 
   return (
-    <Box bgColor="background.page" minH="100vh">
+    <Box bgColor="background.page" minH="100vh" pb={{ base: "2rem", md: "1rem" }}>
       <Header />
       <HeroInfo />
-      <Tabs.Root defaultValue="products" px={{ base: "1rem", md: "2rem" }}>
-        <Tabs.List>
-          <Tabs.Trigger value="products">
-            <BoxIcon />
+      <Tabs.Root 
+        defaultValue="products" 
+        px={{ base: "0.5rem", sm: "1rem", md: "2rem" }}
+      >
+        <Tabs.List 
+          px={{ base: "0.5rem", sm: "0" }}
+          gap={{ base: "0.5rem", md: "1rem" }}
+        >
+          <Tabs.Trigger 
+            value="products"
+            fontSize={{ base: "sm", md: "md" }}
+            px={{ base: "0.75rem", md: "1rem" }}
+            gap={{ base: "0.5rem", md: "0.5rem" }}
+          >
+            <BoxIcon size={18} />
             Productos
           </Tabs.Trigger>
-          <Tabs.Trigger value="categories">
-            <Tag />
+          <Tabs.Trigger 
+            value="categories"
+            fontSize={{ base: "sm", md: "md" }}
+            px={{ base: "0.75rem", md: "1rem" }}
+            gap={{ base: "0.5rem", md: "0.5rem" }}
+          >
+            <Tag size={18} />
             Categorias
           </Tabs.Trigger>
         </Tabs.List>
-          <Tabs.Content value="products">
+          <Tabs.Content value="products" pt={{ base: "1rem", md: "1.5rem" }}>
             <ProductsTable />
           </Tabs.Content>
-          <Tabs.Content value="categories">
+          <Tabs.Content value="categories" pt={{ base: "1rem", md: "1.5rem" }}>
             <CategoriesTable />
           </Tabs.Content>
       </Tabs.Root>

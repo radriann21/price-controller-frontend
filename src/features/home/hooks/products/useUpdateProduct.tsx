@@ -1,9 +1,9 @@
-import { ProductsApi } from "../api/ProductsApi";
+import { ProductsApi } from "@/features/home/api/ProductsApi";
 import { useMutation } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { showErrorToast, showSuccessToast } from "@/shared/utils/errorHandler";
-import type { UpdateProductDTO } from "../interfaces/products.interface";
+import type { UpdateProductDTO } from "@/features/home/interfaces/products.interface";
 
 interface UseUpdateProductParams {
   onSuccessCallback?: () => void;

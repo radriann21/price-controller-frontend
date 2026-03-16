@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { ProductsApi } from "../api/ProductsApi";
+import { ProductsApi } from "@/features/home/api/ProductsApi";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { showErrorToast } from "@/shared/utils/errorHandler";

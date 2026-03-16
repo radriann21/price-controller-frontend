@@ -115,22 +115,37 @@ export const ProductsTable = () => {
   });
 
   return (
-    <Flex direction="column" gapY="0.5rem" py="1rem">
+    <Flex
+      direction="column"
+      gapY="0.5rem"
+      py={{ base: "0.5rem", md: "1rem", lg: "0" }}
+    >
       <Flex
         w="100%"
-        direction={{ base: "column", md: "row" }}
-        alignItems={{ base: "stretch", md: "center" }}
+        direction={{ base: "column", lg: "row" }}
+        alignItems={{ base: "stretch", lg: "center" }}
         justifyContent="space-between"
-        gapY={{ base: "0.75rem", md: "0" }}
+        gap={{ base: "0.75rem", lg: "1rem" }}
+        flexWrap="wrap"
       >
-        <Flex alignItems="center" gapX="0.5rem">
+        <Flex
+          alignItems="center"
+          gap="0.5rem"
+          direction={{ base: "column", sm: "row" }}
+          width={{ base: "100%", lg: "auto" }}
+          flexShrink={0}
+          flexWrap={{ base: "nowrap", md: "wrap", lg: "nowrap" }}
+        >
           <InputGroup
-            width={{ base: "100%", md: "340px" }}
+            width={{ base: "100%", sm: "auto", md: "240px" }}
             startElement={<Search size={16} />}
             bgColor="background.input"
+            flex={{ base: "1", sm: "1", md: "0" }}
+            minWidth={{ sm: "280px" }}
           >
             <Input
               placeholder="Buscar por nombre o categoría..."
+              size={{ base: "sm", md: "sm", lg: "md" }}
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -138,7 +153,13 @@ export const ProductsTable = () => {
               }}
             />
           </InputGroup>
-          <NativeSelect.Root size="sm" width="140px" bgColor="white">
+          <NativeSelect.Root
+            size={{ base: "sm", md: "sm", lg: "md" }}
+            width={{ base: "100%", sm: "auto", md: "140px" }}
+            bgColor="white"
+            flexShrink={0}
+            minWidth={{ sm: "120px" }}
+          >
             <NativeSelect.Field
               placeholder="Filtrar por..."
               value={isActive}
@@ -153,7 +174,12 @@ export const ProductsTable = () => {
             <NativeSelect.Indicator />
           </NativeSelect.Root>
         </Flex>
-        <Flex gapX="0.5rem">
+        <Flex
+          gap="0.5rem"
+          direction={{ base: "column", sm: "row" }}
+          width={{ base: "100%", lg: "auto" }}
+          flexWrap={{ base: "nowrap", md: "wrap", lg: "nowrap" }}
+        >
           <CreateProductDialog />
           <ConfirmUpdateDialog />
           <ImportProductsDialog />

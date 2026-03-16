@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { GlobalMarginApi } from "../api/GlobalMarginApi";
-import type { GlobalMarginFormValues } from "../validations/globalMargin.validation";
+import { GlobalMarginApi } from "@/features/home/api/GlobalMarginApi";
+import type { GlobalMarginFormValues } from "@/features/home/validations/globalMargin.validation";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { toaster } from "@/shared/components/ui/toaster";
 
-export const useCreateGlobalMargin = () => {
+export const useCreateGlobalMargin = ({ reset }: { reset: () => void }) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -16,6 +16,7 @@ export const useCreateGlobalMargin = () => {
         type: "success"
       });
       queryClient.invalidateQueries({ queryKey: queryKeys.globalMargin });
+      reset();
     },
     onError: () => {
       toaster.create({

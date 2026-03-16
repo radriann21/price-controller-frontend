@@ -108,7 +108,7 @@ export const CategoriesTable = () => {
               }}
             />
           </InputGroup>
-          <NativeSelect.Root size="sm" width="140px" bgColor="white">
+          <NativeSelect.Root size="md" width="140px" bgColor="white">
             <NativeSelect.Field
               placeholder="Filtrar por..."
               value={isActive}
