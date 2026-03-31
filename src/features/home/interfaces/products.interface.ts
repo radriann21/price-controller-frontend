@@ -1,6 +1,7 @@
 export interface Product {
   id: string;
   name: string;
+  buyPriceVes: number;
   costUsd: number;
   profitMargin: number;
   priceVes: number;
@@ -24,6 +25,7 @@ export interface ProductResponse {
 
 export interface CreateProductDTO {
   name: string;
+  buyPriceVes: number;
   costUsd: number;
   profitMargin: number | null;
   priceVes: number;
@@ -32,6 +34,7 @@ export interface CreateProductDTO {
 
 export interface UpdateProductDTO {
   name?: string;
+  buyPriceVes?: number;
   costUsd?: number;
   profitMargin?: number;
   priceVes?: number;

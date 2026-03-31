@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Card, Badge, ButtonGroup } from "@chakra-ui/react";
-import type { Product } from "@/features/home/interfaces/products.interface";
 import { EditProductDialog } from "@/features/home/components/products/EditProductDialog";
 import { ConfirmDeleteDialog } from "@/features/home/components/products/ConfirmDeleteDialog";
+import type { Product } from "@/features/home/interfaces/products.interface";
 
 interface ProductCardProps {
   product: Product;
@@ -31,7 +31,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <Flex direction="column" gapY="2">
             <Flex justifyContent="space-between" alignItems="center">
               <Text fontSize="sm" color="text.secondary" fontWeight="medium">
-                Precio USD
+                Precio Compra Bs.S
+              </Text>
+              <Text fontSize="md" fontWeight="semibold" color="text.primary">
+                Bs. {Number(product.buyPriceVes).toLocaleString("es-VE")}
+              </Text>
+            </Flex>
+
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text fontSize="sm" color="text.secondary" fontWeight="medium">
+                Precio Compra USD
               </Text>
               <Text fontSize="md" fontWeight="semibold" color="text.primary">
                 ${product.costUsd}
@@ -40,7 +49,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
             <Flex justifyContent="space-between" alignItems="center">
               <Text fontSize="sm" color="text.secondary" fontWeight="medium">
-                Precio VES
+                Precio Venta Bs.S
               </Text>
               <Text fontSize="md" fontWeight="semibold" color="text.primary">
                 Bs. {Number(product.priceVes).toLocaleString("es-VE")}

@@ -39,7 +39,7 @@ export const CustomTable = <T,>({
       <Table.Header>
         <Table.Row>
           {columns.map((column) => (
-            <Table.ColumnHeader key={column.id}>
+            <Table.ColumnHeader key={column.id} fontWeight="semibold">
               {column.header}
             </Table.ColumnHeader>
           ))}

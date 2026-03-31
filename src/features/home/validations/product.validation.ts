@@ -3,6 +3,7 @@ import { z } from "zod";
 export const productSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),
   costUsd: z.number().min(0, "El costo en USD debe ser mayor o igual a 0"),
+  buyPriceVes: z.number().min(0, "El precio de compra en VES debe ser mayor o igual a 0"),
   priceVes: z.number().min(0, "El costo en VES debe ser mayor o igual a 0"),
   categoryId: z.number("Se requiere la categoría"),
   profitMargin: z
