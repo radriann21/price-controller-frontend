@@ -18,12 +18,21 @@ export const Login = () => {
       alignItems="center"
       bgColor="background.page"
       direction="column"
+      px={{ base: "1rem", sm: "1.5rem", md: "2rem" }}
+      gap={{ base: "1.5rem", md: "2rem" }}
     >
-      <Box textAlign="center">
-        <Heading fontSize="2xl" fontWeight="semibold">
+      <Box textAlign="center" px={{ base: "1rem", sm: "0" }}>
+        <Heading 
+          fontSize={{ base: "xl", sm: "2xl", md: "3xl" }} 
+          fontWeight="semibold"
+          mb={{ base: "0.5rem", md: "0.75rem" }}
+        >
           Iniciar Sesión
         </Heading>
-        <Text fontSize="lg" color="text.secondary">
+        <Text 
+          fontSize={{ base: "sm", sm: "md", md: "lg" }} 
+          color="text.secondary"
+        >
           Ingresa tus credenciales para acceder al sistema
         </Text>
       </Box>

@@ -26,15 +26,14 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%", maxWidth: "450px" }}>
       <Fieldset.Root
-        width="450px"
+        width="100%"
         bgColor="background.card"
-        px="1rem"
-        py="1.5rem"
+        px={{ base: "1rem", sm: "1.5rem", md: "2rem" }}
+        py={{ base: "1.25rem", md: "1.5rem" }}
         rounded="md"
         shadow="sm"
-        mt="10px"
       >
         <Field.Root invalid={!!errors.username}>
           <Field.Label fontWeight="semibold">
@@ -65,6 +64,8 @@ export const LoginForm = () => {
           type="submit"
           bgColor="icon.primary"
           color="white"
+          width="100%"
+          size={{ base: "md", md: "lg" }}
           _hover={{
             bgColor: "brand.primaryHover",
           }}
