@@ -3,7 +3,7 @@ import { ProductsApi } from "@/features/home/api/ProductsApi";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { showErrorToast, showSuccessToast } from "@/shared/utils/errorHandler";
-import type { CreateProductDTO } from "../interfaces/products.interface";
+import type { CreateProductDTO } from "@/features/home/interfaces/products.interface";
 
 export const useCreateProducts = ({
   reset,

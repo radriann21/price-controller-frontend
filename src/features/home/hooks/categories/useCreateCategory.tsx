@@ -3,7 +3,7 @@ import { CategoriesApi } from "@/features/home/api/CategoriesApi";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { showErrorToast, showSuccessToast } from "@/shared/utils/errorHandler";
-import type { CreateCategoryDTO } from "../interfaces/categories.interface";
+import type { CreateCategoryDTO } from "@/features/home/interfaces/categories.interface";
 
 export const useCreateCategory = ({
   reset,
