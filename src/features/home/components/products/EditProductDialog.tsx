@@ -16,8 +16,8 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateProduct } from "@/features/home/hooks/products/useUpdateProduct";
-import type { Product } from "@/features/home/interfaces/products.interface";
 import { useState } from "react";
+import type { Product } from "@/features/home/interfaces/products.interface";
 
 interface EditProductDialogProps {
   product: Product;
@@ -35,6 +35,7 @@ export const EditProductDialog = ({ product }: EditProductDialogProps) => {
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product.name,
+      buyPriceVes: product.buyPriceVes,
       costUsd: product.costUsd,
       priceVes: product.priceVes,
       profitMargin: product.profitMargin,
@@ -87,6 +88,21 @@ export const EditProductDialog = ({ product }: EditProductDialogProps) => {
                       />
                       {errors.name && (
                         <Field.ErrorText>{errors.name.message}</Field.ErrorText>
+                      )}
+                    </Field.Root>
+                    <Field.Root invalid={!!errors.buyPriceVes}>
+                      <Field.Label fontWeight="semibold">
+                        Precio de Compra Bs.S
+                        <span style={{ color: "red" }}>*</span>
+                      </Field.Label>
+                      <Input
+                        placeholder="Precio de compra en Bs.S..."
+                        {...register("buyPriceVes", { valueAsNumber: true })}
+                      />
+                      {errors.buyPriceVes && (
+                        <Field.ErrorText>
+                          {errors.buyPriceVes.message}
+                        </Field.ErrorText>
                       )}
                     </Field.Root>
                     <Field.Root invalid={!!errors.costUsd}>

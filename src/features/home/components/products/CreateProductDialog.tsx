@@ -13,42 +13,62 @@ import {
   productSchema,
   type ProductFormValues,
 } from "@/features/home/validations/product.validation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateProducts } from "@/features/home/hooks/products/useCreateProducts";
 import { useGetCategories } from "@/features/home/hooks/categories/useGetCategories";
 import { useState } from "react";
+import { useGetGlobalMargin } from "@/features/home/hooks/globalMargin/useGetGlobalMargin";
 
 export const CreateProductDialog = () => {
   const [open, setOpen] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       costUsd: 0,
+      buyPriceVes: 0,
       profitMargin: 0,
       priceVes: 0,
     },
   });
 
-  const { mutate: createProduct } = useCreateProducts({ reset, close: () => setOpen(false) });
+  const { mutate: createProduct } = useCreateProducts({
+    reset,
+    close: () => setOpen(false),
+  });
   const { data: categories } = useGetCategories({ page: 1, limit: 100 });
+  const { data: globalMargin } = useGetGlobalMargin();
 
   const onSubmit = (data: ProductFormValues) => {
     createProduct({ ...data, profitMargin: data.profitMargin ?? 0 });
   };
 
+  const buyPriceVes = useWatch({ control, name: "buyPriceVes" });
+  const profitMargin = useWatch({ control, name: "profitMargin" });
+
+  const suggestedPriceVes = (): number => {
+    if (!buyPriceVes) return 0;
+    return parseFloat(
+      (
+        buyPriceVes /
+        (1 - (profitMargin || globalMargin?.profitMargin || 0) / 100)
+      ).toFixed(2),
+    );
+  };
+
   return (
     <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Trigger asChild>
-        <Button 
-          fontWeight="semibold" 
+        <Button
+          fontWeight="semibold"
           px={{ base: "1rem", md: "0.875rem", lg: "1.25rem" }}
           py={{ base: "1.25rem", md: "auto" }}
           size={{ base: "md", md: "sm", lg: "md" }}
@@ -90,6 +110,25 @@ export const CreateProductDialog = () => {
                         <Field.ErrorText>{errors.name.message}</Field.ErrorText>
                       )}
                     </Field.Root>
+                    <Field.Root invalid={!!errors.buyPriceVes}>
+                      <Field.Label fontWeight="semibold">
+                        Precio de Compra Bs.S
+                        <span style={{ color: "red" }}>*</span>
+                      </Field.Label>
+                      <Input
+                        placeholder="Precio de compra en Bs.S..."
+                        {...register("buyPriceVes", { valueAsNumber: true })}
+                      />
+                      {errors.buyPriceVes && (
+                        <Field.ErrorText>
+                          {errors.buyPriceVes.message}
+                        </Field.ErrorText>
+                      )}
+                      <Field.HelperText>
+                        Precio de venta sugerido: {`${suggestedPriceVes()} Bs.S`}
+                      </Field.HelperText>
+                    </Field.Root>
+
                     <Field.Root invalid={!!errors.costUsd}>
                       <Field.Label fontWeight="semibold">
                         Costo USD
@@ -107,11 +146,11 @@ export const CreateProductDialog = () => {
                     </Field.Root>
                     <Field.Root invalid={!!errors.priceVes}>
                       <Field.Label fontWeight="semibold">
-                        Costo VES
+                        Costo Bs.S
                         <span style={{ color: "red" }}>*</span>
                       </Field.Label>
                       <Input
-                        placeholder="Costo en VES..."
+                        placeholder="Costo en Bs.S..."
                         {...register("priceVes", { valueAsNumber: true })}
                       />
                       {errors.priceVes && (

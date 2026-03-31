@@ -20,81 +20,17 @@ import { TOTAL_ITEMS } from "@/shared/utils/constants";
 import { ConfirmUpdateDialog } from "@/features/home/components/products/ConfirmUpdateDialog";
 import { ProductCard } from "@/features/home/components/products/ProductCard";
 import { ImportProductsDialog } from "@/features/home/components/products/ImportProductsDialog";
-import type { Product } from "@/features/home/interfaces/products.interface";
-import { type ReactNode, useState } from "react";
 import { ConfirmDeleteDialog } from "@/features/home/components/products/ConfirmDeleteDialog";
 import { EditProductDialog } from "@/features/home/components/products/EditProductDialog";
 import { CustomTable } from "@/shared/components/custom/CustomTable";
+import { type ReactNode, useMemo, useState } from "react";
+import type { Product } from "@/features/home/interfaces/products.interface";
 
 interface Column {
   id: keyof Product | string;
   header: string;
   render?: (item: Product) => ReactNode;
 }
-
-const columns: Column[] = [
-  {
-    id: "name",
-    header: "Nombre",
-    render: (item) => item.name,
-  },
-  {
-    id: "costUsd",
-    header: "Precio USD",
-    render: (item) => {
-      const USDPrice = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(item.costUsd);
-      return <Text>{USDPrice}</Text>;
-    },
-  },
-  {
-    id: "priceVes",
-    header: "Precio Bs.S",
-    render: (item) => {
-      const VESPrice = new Intl.NumberFormat("es-VE", {
-        style: "currency",
-        currency: "VES",
-      }).format(item.priceVes);
-      return <Text>{VESPrice}</Text>;
-    },
-  },
-  {
-    id: "profitMargin",
-    header: "Margen",
-    render: (item) => <Text>{item.profitMargin}%</Text>,
-  },
-  {
-    id: "category",
-    header: "Categoría",
-    render: (item) => item.category.name,
-  },
-  {
-    id: "updatedAt",
-    header: "Actualizado",
-    render: (item) => new Date(item.updatedAt).toLocaleDateString(),
-  },
-  {
-    id: "isActive",
-    header: "Estado",
-    render: (item) => (
-      <Badge colorPalette={item.isActive ? "green" : "red"}>
-        {item.isActive ? "Activo" : "Inactivo"}
-      </Badge>
-    ),
-  },
-  {
-    id: "actions",
-    header: "Acciones",
-    render: (item) => (
-      <ButtonGroup>
-        <EditProductDialog product={item} />
-        <ConfirmDeleteDialog productId={item.id} />
-      </ButtonGroup>
-    ),
-  },
-];
 
 export const ProductsTable = () => {
   const [page, setPage] = useState(1);
@@ -113,6 +49,84 @@ export const ProductsTable = () => {
     search: debouncedSearch,
     isActive,
   });
+
+  const columns: Column[] = useMemo(
+    () => [
+      {
+        id: "name",
+        header: "Nombre",
+        render: (item) => item.name,
+      },
+      {
+        id: "buyPriceVes",
+        header: "Precio Compra Bs.S",
+        render: (item) => {
+          const VESPrice = new Intl.NumberFormat("es-VE", {
+            style: "currency",
+            currency: "VES",
+          }).format(item.buyPriceVes);
+          return <Text>{VESPrice}</Text>;
+        },
+      },
+      {
+        id: "costUsd",
+        header: "Precio Compra USD",
+        render: (item) => {
+          const USDPrice = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(item.costUsd);
+          return <Text>{USDPrice}</Text>;
+        },
+      },
+      {
+        id: "priceVes",
+        header: "Precio Venta Bs.S",
+        render: (item) => {
+          const VESPrice = new Intl.NumberFormat("es-VE", {
+            style: "currency",
+            currency: "VES",
+          }).format(item.priceVes);
+          return <Text>{VESPrice}</Text>;
+        },
+      },
+      {
+        id: "profitMargin",
+        header: "Margen",
+        render: (item) => <Text>{item.profitMargin}%</Text>,
+      },
+      {
+        id: "category",
+        header: "Categoría",
+        render: (item) => item.category.name,
+      },
+      {
+        id: "updatedAt",
+        header: "Actualizado",
+        render: (item) => new Date(item.updatedAt).toLocaleDateString(),
+      },
+      {
+        id: "isActive",
+        header: "Estado",
+        render: (item) => (
+          <Badge colorPalette={item.isActive ? "green" : "red"}>
+            {item.isActive ? "Activo" : "Inactivo"}
+          </Badge>
+        ),
+      },
+      {
+        id: "actions",
+        header: "Acciones",
+        render: (item) => (
+          <ButtonGroup>
+            <EditProductDialog product={item} />
+            <ConfirmDeleteDialog productId={item.id} />
+          </ButtonGroup>
+        ),
+      },
+    ],
+    [],
+  );
 
   return (
     <Flex
