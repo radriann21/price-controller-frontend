@@ -1,7 +1,7 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/query/queryKeys";
 import { ProductsApi } from "@/features/home/api/ProductsApi";
-import type { Pagination } from "../interfaces/pagination.interface";
+import type { Pagination } from "@/features/home/interfaces/pagination.interface";
 
 export const useGetProducts = (pagination: Pagination) => {
   return useQuery({
